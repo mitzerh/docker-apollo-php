@@ -46,10 +46,18 @@ RUN \
   sed -i 's/#ServerName www\.example\.com:80/ServerName localhost:80/' /etc/httpd/conf/httpd.conf
 
 RUN \
-  echo "installing node" && \
-  curl -sL https://rpm.nodesource.com/setup_10.x | bash - && \
-  yum install -y nodejs && \
-  npm install -g grunt grunt-cli pm2
+  echo "installing php 7.1" && \
+  yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+  yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm && \
+  yum -y install yum-utils && \
+  yum-config-manager --enable remi-php71 && \
+  yum -y install php-common php-opcache php-mcrypt php-cli php-gd php-curl && \
+  yum -y install php-pear php71w-devel
+
+RUN \
+  echo "installing php mongodb" && \
+  yum -y install php71-php-pecl-mongodb.x86_64 && \
+  echo 'extension=mongodb.so' > /etc/php.d/mongodb.ini
 
 RUN echo Done!
 
