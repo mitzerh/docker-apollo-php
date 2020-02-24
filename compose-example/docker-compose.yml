@@ -1,0 +1,20 @@
+version: '3.2'
+services:
+  web:
+    container_name: my_apollo_container
+    image: mitzerh/apollo
+    restart: always
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/local/root/apollo.example.com
+      - type: bind
+        source: ./.docker-local/conf
+        target: /root/conf.d_xfer
+        read_only: true
+    ports:
+      - 9992:80
+    environment:
+        root: apollo.example.com
+        # NODE_VERSION: 8.11.3
+        # NPM_VERSION: latest
