@@ -67,11 +67,9 @@ RUN \
 
 RUN \
   echo "installing php mongodb" && \
-  git clone https://github.com/mongodb/mongo-php-driver.git && \
-  cd mongo-php-driver && git submodule sync && git submodule update --init && \
-  phpize && ./configure && make all && \
-  make install && \
-  echo 'extension=mongodb.so' > /etc/php.d/mongodb.ini
+  pecl install -f mongodb-1.4.2 && \
+  printf 'extension=mongodb.so\nmongodb.debug="/var/log/mongodb-debug.log"' > /etc/php.d/mongodb.ini
+
 
 RUN echo Done!
 
